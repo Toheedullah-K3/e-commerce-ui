@@ -1,7 +1,7 @@
 "use client"
 
 import { Briefcase, Footprints, Glasses, Hand, Shirt, ShoppingBasket, Venus } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 
 
@@ -55,9 +55,10 @@ function Categories() {
   const selectedCategory = searchParams.get("category")
 
   const router = useRouter()
-
+  const pathname = usePathname()
+  
   function handleChange(value: string | null){
-    router.push(`?category=${value}`)
+    router.push(`${pathname}/?category=${value}`)
   }
 
   return (
