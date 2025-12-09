@@ -1,4 +1,4 @@
-export type ProductTypes = {
+export type ProductType = {
     id: string | number;
     name: string;
     shortDescription: string;
@@ -9,4 +9,4 @@ export type ProductTypes = {
     images: Record<string, string>;
 }
 
-export type ProductsTypes = ProductTypes[]
+export type ProductsTypes = ProductType[]

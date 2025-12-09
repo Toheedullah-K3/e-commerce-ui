@@ -58,7 +58,10 @@ function Categories() {
   const pathname = usePathname()
   
   function handleChange(value: string | null){
-    router.push(`${pathname}/?category=${value}`)
+    const params = new URLSearchParams(searchParams) 
+
+    params.set("category", value || "all")
+    router.push(`${pathname}/?${params.toString()}`, {scroll: false})
   }
 
   return (
