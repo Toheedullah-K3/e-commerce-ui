@@ -1,6 +1,7 @@
 "use client";
 
-
+import PaymentForm from "@/components/PaymentForm";
+import ShippingForm from "@/components/ShippingForm";
 import { CartItemsTypes } from "@/types";
 import { ArrowRight, Trash2 } from "lucide-react";
 import Image from "next/image";
@@ -22,7 +23,7 @@ const steps = [
   },
 ];
 
-// TEMPORARY
+// TEMPORARY 
 const cartItems: CartItemsTypes = [
   {
     id: 1,
@@ -82,7 +83,6 @@ const cartItems: CartItemsTypes = [
 const CartPage = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
-
 
   const activeStep = parseInt(searchParams.get("step") || "1");
 
@@ -157,7 +157,7 @@ const CartPage = () => {
                 </div>
                 {/* DELETE BUTTON */}
                 <button
-                  // onClick={() => removeFromCart(item)} 
+
                   className="w-8 h-8 rounded-full bg-red-100 hover:bg-red-200 transition-all duration-300 text-red-400 flex items-center justify-center cursor-pointer"
                 >
                   <Trash2 className="w-3 h-3" />
@@ -165,17 +165,16 @@ const CartPage = () => {
               </div>
             ))
           ) : activeStep === 2 ? (
-            <h2>STEP 2</h2>
-          ) : activeStep === 3 && true ? (
-            <h2>STEP 3</h2>
+            <ShippingForm  />
+          ) : activeStep === 3 && false ? (
+            <PaymentForm />
           ) : (
             <p className="text-sm text-gray-500">
               Please fill in the shipping form to continue.
             </p>
           )}
         </div>
-        
-        {/* DETAILS  */}
+        {/* DETAILS */}
         <div className="w-full lg:w-5/12 shadow-lg border-1 border-gray-100 p-8 rounded-lg flex flex-col gap-8 h-max">
           <h2 className="font-semibold">Cart Details</h2>
           <div className="flex flex-col gap-4">
@@ -183,7 +182,9 @@ const CartPage = () => {
               <p className="text-gray-500">Subtotal</p>
               <p className="font-medium">
                 $
-                {cartItems.reduce((acc, item) => acc + item.price, 0)}
+                {cartItems
+                  .reduce((acc, item) => acc + item.price * item.quantity, 0)
+                  .toFixed(2)}
               </p>
             </div>
             <div className="flex justify-between text-sm">
@@ -199,10 +200,21 @@ const CartPage = () => {
               <p className="text-gray-800 font-semibold">Total</p>
               <p className="font-medium">
                 $
-                {cartItems.reduce((acc, item) => acc + item.price, 0)}
+                {cartItems
+                  .reduce((acc, item) => acc + item.price * item.quantity, 0)
+                  .toFixed(2)}
               </p>
             </div>
           </div>
+          {activeStep === 1 && (
+            <button
+              onClick={() => router.push("/cart?step=2", { scroll: false })}
+              className="w-full bg-gray-800 hover:bg-gray-900 transition-all duration-300 text-white p-2 rounded-lg cursor-pointer flex items-center justify-center gap-2"
+            >
+              Continue
+              <ArrowRight className="w-3 h-3" />
+            </button>
+          )}
         </div>
       </div>
     </div>

@@ -12,7 +12,7 @@ export type ProductType = {
 export type ProductsTypes = ProductType[]
 
 export type CartItemsType = ProductType & {
-    quantity: string;
+    quantity: number;
     selectedSize: string;
     selectedColor: string;
 }
