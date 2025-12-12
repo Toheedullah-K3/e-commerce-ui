@@ -1,35 +1,33 @@
-import { shippingFormInputs, shippingFormSchema } from "@/types"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { ArrowRight } from "lucide-react"
-import { useRouter } from "next/navigation"
-import { SubmitHandler, useForm } from "react-hook-form"
+import { ShippingFormInputs, shippingFormSchema } from "@/types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ArrowRight } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { SubmitHandler, useForm } from "react-hook-form";
 
-
-function ShippingForm({
-  setShippingForm
-}:{
-  setShippingForm: (data: shippingFormInputs)=> void
-}) {
-
+const ShippingForm = ({
+  setShippingForm,
+}: {
+  setShippingForm: (data: ShippingFormInputs) => void;
+}) => {
   const {
-    register, 
-    handleSubmit, 
-    formState: {errors}
-  } = useForm<shippingFormInputs>({
-    resolver: zodResolver(shippingFormSchema)
-  })
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ShippingFormInputs>({
+    resolver: zodResolver(shippingFormSchema),
+  });
 
   const router = useRouter();
 
-  const handleShippingForm:SubmitHandler<shippingFormInputs> = (data) => {
+  const handleShippingForm: SubmitHandler<ShippingFormInputs> = (data) => {
     setShippingForm(data);
-    router.push('/cart?step=3', {scroll: false});
-  }
+    router.push("/cart?step=3", { scroll: false });
+  };
 
   return (
     <form
-      onSubmit={handleSubmit(handleShippingForm)}
       className="flex flex-col gap-4"
+      onSubmit={handleSubmit(handleShippingForm)}
     >
       <div className="flex flex-col gap-1">
         <label htmlFor="name" className="text-xs text-gray-500 font-medium">
@@ -114,7 +112,7 @@ function ShippingForm({
         <ArrowRight className="w-3 h-3" />
       </button>
     </form>
-  )
-}
+  );
+};
 
-export default ShippingForm
+export default ShippingForm;
