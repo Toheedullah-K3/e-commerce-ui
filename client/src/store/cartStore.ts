@@ -6,6 +6,13 @@ const useCartStore = create<CartStoreStateType & CartStoreActionsType>()((set) =
     addToCart: (product) => {
         set((state)=> ({cart: [...state.cart, product]}) )
     },
-    removeFromCart: () => { },
-    clearCart: () => { },
+    removeFromCart: (product) => {
+        set((state) => ({ cart: state.cart.filter((p) => (p.id !== product.id))}))
+    },
+    clearCart: () => {
+        set({ cart: []})
+    },
 }))
+
+
+export default useCartStore
