@@ -7,6 +7,8 @@ import { ShoppingCart } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useState } from "react"
+// import { toast } from "react-toastify"
+import { toast } from "sonner"
 
 
 function ProductCard({ product }: { product: ProductType }) {
@@ -22,7 +24,7 @@ function ProductCard({ product }: { product: ProductType }) {
     }))
   }
 
-  const {addToCart} = useCartStore()
+  const { addToCart } = useCartStore()
 
   const handleAddToCart = () => {
     addToCart({
@@ -30,6 +32,9 @@ function ProductCard({ product }: { product: ProductType }) {
       quantity: 1,
       selectedColor: productTypes.color,
       selectedSize: productTypes.size
+    })
+    toast.success("Product added to cart", {
+      duration: 1200, // 5 seconds
     })
   }
 
@@ -75,11 +80,10 @@ function ProductCard({ product }: { product: ProductType }) {
             <div className="flex items-center gap-2">
               {product.colors.map((color) => (
                 <div
-                  className={`cursor-pointer border-1 ${
-                    productTypes.color === color
+                  className={`cursor-pointer border-1 ${productTypes.color === color
                       ? "border-gray-400"
                       : "border-gray-200"
-                  } rounded-full p-0.5`}
+                    } rounded-full p-0.5`}
                   key={color}
                   onClick={() =>
                     handleProductType({ type: "color", value: color })
@@ -100,7 +104,7 @@ function ProductCard({ product }: { product: ProductType }) {
         <div className="flex items-center justify-between">
           <p className="font-medium">${product.price.toFixed(2)}</p>
           <button
-            onClick={handleAddToCart} 
+            onClick={handleAddToCart}
             className="ring-1 ring-gray-200 shadow-lg rounded-md px-2 py-1 text-sm cursor-pointer hover:text-white hover:bg-black transition-all duration-300 flex items-center gap-2"
           >
             <ShoppingCart className="w-4 h-4" />
