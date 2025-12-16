@@ -8,6 +8,8 @@ import { ArrowRight, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner"
+
 
 const steps = [
   {
@@ -84,7 +86,9 @@ const steps = [
 const CartPage = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const {cart} = useCartStore()
+
+  const {cart, removeFromCart} = useCartStore()
+
 
   const [shippingForm, setShippingForm] = useState<ShippingFormInputs>();
 
@@ -161,8 +165,8 @@ const CartPage = () => {
                 </div>
                 {/* DELETE BUTTON */}
                 <button
-
                   className="w-8 h-8 rounded-full bg-red-100 hover:bg-red-200 transition-all duration-300 text-red-400 flex items-center justify-center cursor-pointer"
+                  onClick={() => {removeFromCart(item)}}
                 >
                   <Trash2 className="w-3 h-3" />
                 </button>
