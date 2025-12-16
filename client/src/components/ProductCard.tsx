@@ -1,88 +1,92 @@
-'use client'
+"use client";
 
+import useCartStore from "@/store/cartStore";
+import { ProductType } from "@/types";
+import { ShoppingCart } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
-import useCartStore from "@/store/cartStore"
-import { ProductType } from "@/types"
-import { ShoppingCart } from "lucide-react"
-import Image from "next/image"
-import Link from "next/link"
-import { useState } from "react"
-import { toast } from "sonner"
-
-
-function ProductCard({ product }: { product: ProductType }) {
+const ProductCard = ({ product }: { product: ProductType }) => {
   const [productTypes, setProductTypes] = useState({
     size: product.sizes[0],
-    color: product.colors[0]
-  })
+    color: product.colors[0],
+  });
 
-  const handleProductType = ({ type, value }: { type: "size" | "color", value: string }) => {
+  const { addToCart } = useCartStore();
+
+  const handleProductType = ({
+    type,
+    value,
+  }: {
+    type: "size" | "color";
+    value: string;
+  }) => {
     setProductTypes((prev) => ({
       ...prev,
-      [type]: value
-    }))
-  }
-
-  const { addToCart } = useCartStore()
+      [type]: value,
+    }));
+  };
 
   const handleAddToCart = () => {
     addToCart({
       ...product,
       quantity: 1,
+      selectedSize: productTypes.size,
       selectedColor: productTypes.color,
-      selectedSize: productTypes.size
-    })
-    toast.success("Product added to cart", {
-      duration: 1200, // 5 seconds
-    })
-  }
+    });
+    toast.success("Product added to cart")
+  };
 
   return (
     <div className="shadow-lg rounded-lg overflow-hidden">
-      {/* IMAGE  */}
-      <Link href={`products/${product.id}`}>
+      {/* IMAGE */}
+      <Link href={`/products/${product.id}`}>
         <div className="relative aspect-[2/3]">
           <Image
-            src={`${product.images[productTypes.color]}`}
+            src={product.images[productTypes.color]}
             alt={product.name}
             fill
             className="object-cover hover:scale-105 transition-all duration-300"
           />
         </div>
       </Link>
-
-      {/* PRODUCT DETAILS  */}
+      {/* PRODUCT DETAIL */}
       <div className="flex flex-col gap-4 p-4">
         <h1 className="font-medium">{product.name}</h1>
         <p className="text-sm text-gray-500">{product.shortDescription}</p>
-
-        {/* PRODUCT TYPES  */}
+        {/* PRODUCT TYPES */}
         <div className="flex items-center gap-4 text-xs">
-          {/* SIZES  */}
+          {/* SIZES */}
           <div className="flex flex-col gap-1">
             <span className="text-gray-500">Size</span>
-            <select name="size" id="size" className="ring ring-gray-300 rounded-md px-2 py-1"
-              onChange={e => handleProductType({
-                type: "size",
-                value: e.target.value
-              })}
+            <select
+              name="size"
+              id="size"
+              className="ring ring-gray-300 rounded-md px-2 py-1"
+              onChange={(e) =>
+                handleProductType({ type: "size", value: e.target.value })
+              }
             >
-              {product.sizes.map(size => (
-                <option key={size} value={size}>{size.toUpperCase()}</option>
+              {product.sizes.map((size) => (
+                <option key={size} value={size}>
+                  {size.toUpperCase()}
+                </option>
               ))}
             </select>
           </div>
-
-          {/* COLORS  */}
+          {/* COLORS */}
           <div className="flex flex-col gap-1">
             <span className="text-gray-500">Color</span>
             <div className="flex items-center gap-2">
               {product.colors.map((color) => (
                 <div
-                  className={`cursor-pointer border-1 ${productTypes.color === color
+                  className={`cursor-pointer border-1 ${
+                    productTypes.color === color
                       ? "border-gray-400"
                       : "border-gray-200"
-                    } rounded-full p-0.5`}
+                  } rounded-full p-[1.2px]`}
                   key={color}
                   onClick={() =>
                     handleProductType({ type: "color", value: color })
@@ -91,15 +95,13 @@ function ProductCard({ product }: { product: ProductType }) {
                   <div
                     className="w-[14px] h-[14px] rounded-full"
                     style={{ backgroundColor: color }}
-                  ></div>
+                  />
                 </div>
               ))}
             </div>
           </div>
-
         </div>
-
-        {/* PRICE & ADD TO CART  */}
+        {/* PRICE AND ADD TO CART BUTTON */}
         <div className="flex items-center justify-between">
           <p className="font-medium">${product.price.toFixed(2)}</p>
           <button
@@ -112,7 +114,7 @@ function ProductCard({ product }: { product: ProductType }) {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ProductCard
+export default ProductCard;
