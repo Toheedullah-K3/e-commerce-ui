@@ -51,9 +51,7 @@ function Navbar() {
                         </DropdownMenuContent>
                     </DropdownMenu>
                     {/* USER MENU  */}
-                </div>
-
-                <DropdownMenu>
+                    <DropdownMenu>
                     <DropdownMenuTrigger>
                         <Avatar>
                             <AvatarImage src="https://lh3.googleusercontent.com/a/ACg8ocICwDpzwqdKG0hWtq4_xZOKDDufk9l2ICx-vIlFaGJGSgVjChpMIA=s288-c-no" />
@@ -74,6 +72,9 @@ function Navbar() {
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
+                </div>
+
+                
             </nav>
         </div>
     )
